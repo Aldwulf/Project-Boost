@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 23749998087962746}
   - component: {fileID: 65145572584361940}
   m_Layer: 0
-  m_Name: Rocket Booster (1)
+  m_Name: Starboard Booster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 23188473888547668}
   - component: {fileID: 65829492843385164}
   m_Layer: 0
-  m_Name: Rocket Booster (2)
+  m_Name: Port Booster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
