@@ -8,6 +8,9 @@ public class Rocket : MonoBehaviour {
 
     [SerializeField] float rcsThrust = 100f; // rcs = reaction control system
     [SerializeField] float mainThrust = 100f;
+    [SerializeField] AudioClip mainEngine;
+    [SerializeField] AudioClip deathSound;
+    [SerializeField] AudioClip winSound;
 
     Rigidbody rigidBody;
     AudioSource rocketSound;
@@ -40,14 +43,28 @@ public class Rocket : MonoBehaviour {
                 print("Hit Friendly");
                 break;
             case "Finish":
-                state = State.Transcending;
-                Invoke("LoadNextLevel", 1f);
+                StartSuccessSequence();
                 break;
             default:
-                state = State.Dying;
-                Invoke("LoadFirstLevel", 1f);
+                StartDeathSequence();
                 break;
         }
+    }
+    
+    private void StartSuccessSequence()
+    {
+        state = State.Transcending;
+        rocketSound.Stop();
+        rocketSound.PlayOneShot(winSound);
+        Invoke("LoadNextLevel", 1f);
+    }
+
+    private void StartDeathSequence()
+    {
+        state = State.Dying;
+        rocketSound.Stop();
+        rocketSound.PlayOneShot(deathSound);
+        Invoke("LoadFirstLevel", 1f);
     }
 
     private void LoadFirstLevel()
@@ -64,16 +81,21 @@ public class Rocket : MonoBehaviour {
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            float mainThrustPerFrame = mainThrust * Time.deltaTime;
-            rigidBody.AddRelativeForce(Vector3.up * mainThrustPerFrame);
-            if (!rocketSound.isPlaying)
-            {
-                rocketSound.Play();
-            }
+            ApplyThrust();
         }
         else
         {
             rocketSound.Stop();
+        }
+    }
+
+    private void ApplyThrust()
+    {
+        float mainThrustPerFrame = mainThrust * Time.deltaTime;
+        rigidBody.AddRelativeForce(Vector3.up * mainThrustPerFrame);
+        if (!rocketSound.isPlaying)
+        {
+            rocketSound.PlayOneShot(mainEngine);
         }
     }
 
